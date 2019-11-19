@@ -341,6 +341,9 @@ public class SettingsHelper {
         case TCPCLI:
             settings = StreamTcpClientFragment.readSettings(prefs);
             break;
+        case TCPSVR:
+            settings = StreamTcpServerFragment.readSettings(prefs);
+            break;
         case UDPCLI:
             settings = StreamUdpClientFragment.readSettings(prefs);
             break;
@@ -398,6 +401,9 @@ public class SettingsHelper {
             break;
         case TCPCLI:
             summary = StreamTcpClientFragment.readSummary(prefs);
+            break;
+        case TCPSVR:
+            summary = StreamTcpServerFragment.readSummary(prefs);
             break;
         case UDPCLI:
             summary = StreamUdpClientFragment.readSummary(prefs);

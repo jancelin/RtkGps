@@ -31,10 +31,13 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import org.acra.util.ToastSender;
 
 import butterknife.BindString;
 import butterknife.ButterKnife;
@@ -101,6 +104,7 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mRtkService.
         MultiplePermissionsListener dialogMultiplePermissionsListener =
                 DialogOnAnyDeniedMultiplePermissionsListener.Builder
                         .withContext(this)
@@ -207,9 +211,10 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             }
         });
 
+
+
         ChangeLog cl = new ChangeLog(this);
-        if (cl.firstRun())
-            cl.getLogDialog().show();
+        if (cl.firstRun()) cl.getLogDialog().show();
     }
 
     private void toggleCasterSwitch() {
@@ -527,6 +532,23 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     private void refreshServiceSwitchStatus() {
         boolean serviceActive = mRtkServiceBound && (mRtkService.isServiceStarted());
         mNavDrawerServerSwitch.setChecked(serviceActive);
+
+        Intent i = getIntent();
+        String action = i.getAction();
+        if(action=="gpsplus.rtkgps.start") {
+            if(!mNavDrawerServerSwitch.isChecked()) {
+                mNavDrawerServerSwitch.setChecked(true);
+                Toast.makeText(this,i.getAction().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        if(action=="gpsplus.rtkgps.stop") {
+            if(mNavDrawerServerSwitch.isChecked()) {
+                mNavDrawerServerSwitch.setChecked(false);
+                Toast.makeText(this,i.getAction().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 
     private void startRtkService(String sessionCode) {

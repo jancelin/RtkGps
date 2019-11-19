@@ -1,0 +1,41 @@
+{
+  "buildFiles": [
+    "C:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Android.mk",
+    "C:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Application.mk"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\Desktop\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Android.mk NDK_APPLICATION_MK\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003dC:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\lib clean"
+  ],
+  "libraries": {
+    "ntripcaster-release-arm64-v8a": {
+      "artifactName": "ntripcaster",
+      "buildCommand": "C:\\Users\\Desktop\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Android.mk NDK_APPLICATION_MK\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003dC:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\lib C:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj/local/arm64-v8a/libntripcaster.so",
+      "abi": "arm64-v8a",
+      "output": "C:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\obj\\local\\arm64-v8a\\libntripcaster.so"
+    },
+    "rtklib-release-arm64-v8a": {
+      "artifactName": "rtklib",
+      "buildCommand": "C:\\Users\\Desktop\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Android.mk NDK_APPLICATION_MK\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003dC:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\lib C:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj/local/arm64-v8a/librtklib.a",
+      "abi": "arm64-v8a",
+      "output": "C:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\obj\\local\\arm64-v8a\\librtklib.a"
+    },
+    "gdalalljni-release-arm64-v8a": {
+      "artifactName": "gdalalljni",
+      "buildCommand": "C:\\Users\\Desktop\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Android.mk NDK_APPLICATION_MK\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003dC:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\lib C:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj/local/arm64-v8a/libgdalalljni.so",
+      "abi": "arm64-v8a",
+      "output": "C:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\obj\\local\\arm64-v8a\\libgdalalljni.so"
+    },
+    "rtkgps-release-arm64-v8a": {
+      "artifactName": "rtkgps",
+      "buildCommand": "C:\\Users\\Desktop\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Android.mk NDK_APPLICATION_MK\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003dC:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\lib C:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj/local/arm64-v8a/librtkgps.so",
+      "abi": "arm64-v8a",
+      "output": "C:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\obj\\local\\arm64-v8a\\librtkgps.so"
+    },
+    "proj-release-arm64-v8a": {
+      "artifactName": "proj",
+      "buildCommand": "C:\\Users\\Desktop\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Android.mk NDK_APPLICATION_MK\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\jni\\Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003dC:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dC:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\lib C:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj/local/arm64-v8a/libproj.so",
+      "abi": "arm64-v8a",
+      "output": "C:\\Users\\Desktop\\Desktop\\RTKGPS\\RtkGps3\\build\\intermediates\\ndkBuild\\release\\obj\\local\\arm64-v8a\\libproj.so"
+    }
+  }
+}

@@ -1,10 +1,5 @@
 package gpsplus.rtkgps.settings;
 
-import javax.annotation.Nonnull;
-
-import gpsplus.rtkgps.BuildConfig;
-import gpsplus.rtkgps.R;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,11 +7,15 @@ import android.preference.EditTextPreference;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 
+import javax.annotation.Nonnull;
+
+import gpsplus.rtkgps.BuildConfig;
+import gpsplus.rtkgps.R;
 import gpsplus.rtklib.RtkServerSettings.TransportSettings;
 import gpsplus.rtklib.constants.StreamType;
 
 
-public class StreamTcpClientFragment extends PreferenceFragment {
+public class StreamTcpServerFragment extends PreferenceFragment {
 
     private static final boolean DBG = BuildConfig.DEBUG & true;
 
@@ -53,7 +52,7 @@ public class StreamTcpClientFragment extends PreferenceFragment {
 
         @Override
         public StreamType getType() {
-            return StreamType.TCPCLI;
+            return StreamType.TCPSVR;
         }
 
         @Override
@@ -83,7 +82,7 @@ public class StreamTcpClientFragment extends PreferenceFragment {
         }
     }
 
-    public StreamTcpClientFragment() {
+    public StreamTcpServerFragment() {
         super();
         mPreferenceChangeListener = new PreferenceChangeListener();
         mSharedPrefsName = StreamNtripClientFragment.class.getSimpleName();
@@ -164,7 +163,9 @@ public class StreamTcpClientFragment extends PreferenceFragment {
     }
 
     public static String readSummary(SharedPreferences prefs) {
-        return "tcpcli:" + readSettings(prefs).getPath();
+        Log.d("ASPARUH","tcpsvr:" + readSettings(prefs).getPath() );
+        return "tcpsvr:" + readSettings(prefs).getPath();
+
     }
 
 

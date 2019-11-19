@@ -50,7 +50,7 @@ public class RtkGps extends Application {
 
         System.loadLibrary("rtkgps");
 
-        //System.loadLibrary("gdalalljni"); //Automaticaly done
+        System.loadLibrary("gdalalljni"); //Automaticaly done
         ogr.RegisterAll();
         gdal.AllRegister();
         Log.v("GDAL",gdal.VersionInfo("--version"));

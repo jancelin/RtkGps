@@ -37,6 +37,7 @@ public class OutputSolution1Fragment extends PreferenceFragment {
 
     private final StreamType INPUT_STREAM_TYPES[] = new StreamType[] {
         StreamType.TCPCLI,
+        StreamType.TCPSVR,
         StreamType.NTRIPSVR,
         StreamType.FILE
     };
