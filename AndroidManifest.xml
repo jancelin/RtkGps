@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="gpsplus.rtkgps"
     android:versionCode="26"
-    android:versionName="1.0 Alpha 26" >
+    android:versionName="1.0 Alpha 26">
 
     <uses-sdk
         android:minSdkVersion="18"
@@ -14,93 +14,90 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.USB_PERMISSION" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
-    
-    
-    <!-- osmdroid -->
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- osmdroid -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-feature android:name="android.hardware.bluetooth" android:required="false" />
-	<uses-feature android:name="android.hardware.usb.host" android:required="false" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="false" />
 
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
+        android:name=".RtkGps"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:installLocation="auto"
         android:label="@string/app_name"
-        android:name="RtkGps"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+        <service
+            android:name=".view.foreground"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
-            android:name="gpsplus.rtkgps.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.ActionBarOverlay"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.ActionBarOverlay">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-			<intent-filter>
-			    <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-			</intent-filter>
-			<meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-                      android:resource="@xml/usb_device_filter" />
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/usb_device_filter" />
         </activity>
-
-		<activity android:name=".settings.SettingsActivity"
-			android:parentActivityName="gpsplus.rtkgps.MainActivity" >
-		</activity>
-
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".settings.StreamSettingsActivity"
             android:label="@string/title_activity_input_stream_settings"
-            android:parentActivityName="gpsplus.rtkgps.MainActivity" >
-        </activity>
-        
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".settings.StreamDialogActivity"
             android:theme="@android:style/Theme.Holo.Dialog.MinWidth" />
-        
         <activity
             android:name=".settings.StartupShutdownSettingsActivity"
-            android:theme="@android:style/Theme.Holo.Dialog"  />
-        
-		<activity
+            android:theme="@android:style/Theme.Holo.Dialog" />
+        <activity
             android:name=".settings.StationPositionActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
-            android:name="gpsplus.rtkgps.ToolsActivity"
-            android:theme="@android:style/Theme.Holo.Dialog"
-            />
-        		
-		<activity android:name="gpsplus.rtkgps.AboutActivity"
-		    android:label="@string/about_activity_label"
-		     />
-        
-		<service 
+            android:name=".ToolsActivity"
+            android:theme="@android:style/Theme.Holo.Dialog" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/about_activity_label" />
+
+        <service
             android:name=".RtkNaviService"
-            android:exported="false" >
-			<intent-filter>
-			    <action android:name="gpsplus.rtkgps.RtkNaviService.START" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="gpsplus.rtkgps.RtkNaviService.START" />
                 <action android:name="gpsplus.rtkgps.RtkNaviService.STOP" />
-			</intent-filter>	
-		</service>
-		
-		<meta-data
-		    android:name="BING_KEY"
-		    android:value=" Anw2XC78AChKH-ji_aSpKg0hdF1XzkOnBCCOSwOwVnrVr8elrdvfNupIfeB_aKbb " />
-		    
-		<meta-data
-		    android:name="com.google.android.gms.version"
-		    android:value="@integer/google_play_services_version" />
+            </intent-filter>
+        </service>
 
-
+        <meta-data
+            android:name="BING_KEY"
+            android:value=" Anw2XC78AChKH-ji_aSpKg0hdF1XzkOnBCCOSwOwVnrVr8elrdvfNupIfeB_aKbb " />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

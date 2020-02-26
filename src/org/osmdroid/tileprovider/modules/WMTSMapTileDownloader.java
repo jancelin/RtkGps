@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import gpsplus.rtkgps.BuildConfig;
-import gpsplus.rtkgps.geoportail.License;
+//import gpsplus.rtkgps.geoportail.License;
 
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
@@ -98,8 +98,8 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
     }
 
     public WMTSMapTileDownloader(final ITileSource pTileSource,
-            final IFilesystemCache pFilesystemCache,
-            final INetworkAvailablityCheck pNetworkAvailablityCheck) {
+                                 final IFilesystemCache pFilesystemCache,
+                                 final INetworkAvailablityCheck pNetworkAvailablityCheck) {
         super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
 
         mFilesystemCache = pFilesystemCache;
@@ -201,7 +201,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 // create the credentials with username and password
                 CredentialsProvider credProvider = new BasicCredentialsProvider();
                 credProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-                    new UsernamePasswordCredentials("", ""));
+                        new UsernamePasswordCredentials("", ""));
 
                 // get the client
                 HttpClient httpClient = getNewHttpClient();
@@ -211,7 +211,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
 
                 final HttpUriRequest head = new HttpGet(tileURLString);
                 //Geoportail has a mandatory user-agent
-                head.setHeader("User-Agent", License.getUserAgent()); // TODO have tileSource dependent User-Agent
+                //+head.setHeader("User-Agent", License.getUserAgent()); //TODO have tileSource dependent User-Agent
                 final HttpResponse response = httpClient.execute(head);
 
                 // Check to see if we got success
