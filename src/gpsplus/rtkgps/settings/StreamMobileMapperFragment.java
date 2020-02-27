@@ -16,8 +16,8 @@ import gpsplus.rtklib.constants.StreamType;
 
 public class StreamMobileMapperFragment extends PreferenceFragment {
 
-    public static final String MOBILEMAPPER_INTERNAL_SENSOR_STR = "U-Blox M8030";
-    public static final String MOBILEMAPPER_INTERNAL_SENSOR_POGOPIN_PORT = "/dev/ttyHSL1";
+    public static final String MOBILEMAPPER_INTERNAL_SENSOR_STR = "U-Blox F9P"; //U-Blox M8030
+    public static final String MOBILEMAPPER_INTERNAL_SENSOR_POGOPIN_PORT = "/dev/bus/usb/"; ///dev/ttyHSL1
     public static final String MOBILEMAPPER_RAW_AUTOCAPTURE = "stream_mobilemapper_autocapture";
     public static final String MOBILEMAPPER_DYNAMIC_MODEL = "stream_mobilemapper_dynmodel";
     public static final String MOBILEMAPPER_FORCE_COLDSTART = "stream_mobilemapper_force_coldstart";

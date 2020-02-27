@@ -33,10 +33,10 @@ public class StreamNtripServerFragment extends PreferenceFragment {
         private @Nonnull String mountpoint;
         private @Nonnull String password;
 
-        public static final String DEFAULT_HOST = "caster.server.dom";
+        public static final String DEFAULT_HOST = "caster.centipede.fr";
         public static final int DEFAULT_PORT = 2101;
-        public static final String DEFAULT_MOUNTPOUNT = "GNSS0";
-        public static final String DEFAULT_PASSWORD = "password";
+        public static final String DEFAULT_MOUNTPOUNT = "BASEM";
+        public static final String DEFAULT_PASSWORD = "centipede";
 
         public Value() {
             host = DEFAULT_HOST;

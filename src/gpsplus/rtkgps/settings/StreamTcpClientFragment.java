@@ -32,7 +32,7 @@ public class StreamTcpClientFragment extends PreferenceFragment {
         private int port;
 
         public static final String DEFAULT_HOST = "localhost";
-        public static final int DEFAULT_PORT = 1020;
+        public static final int DEFAULT_PORT = 8080;
 
         public Value() {
             host = DEFAULT_HOST;
