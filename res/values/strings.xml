@@ -52,6 +52,12 @@
     <string name="navdraw_item_processing_options">Processing options</string>
     <string name="navdraw_item_solution_options">Solution options</string>
     <string name="navdraw_item_ntripcaster_options">Caster options</string>
+    <string name="navdraw_item_save_settings">Save settings to file</string>
+    <string name="navdraw_item_save_settings_finished">Settings saved to zip file in application directory (%s).</string>
+    <string name="navdraw_item_save_settings_failed">Settings save failed into application directory (%s).</string>
+    <string name="navdraw_item_load_settings">Load settings from file</string>
+    <string name="navdraw_item_load_settings_finished">Settings loaded from zip file in application directory (%s).</string>
+    <string name="navdraw_item_load_settings_failed">Settings file not found in application directory (%s).</string>
 
     <string-array name="rtk_server_receiver">
         <item>Rover</item>
@@ -684,13 +690,6 @@
     <string name="ntrip_client_mountpoint_title">NTRIP Mountpoint</string>
     <string name="ntrip_client_user_title">NTRIP user</string>
     <string name="ntrip_client_password_title">NTRIP password</string>
-
-    <string name="ntrip_client_category_individual">Individual fields</string>
-    <string name="ntrip_client_category_path">Single path</string>
-
-    <string name="ntrip_client_path_title">NTRIP path...</string>
-    <string name="ntrip_client_path_hint">Change all settings as a single string.</string>
-
     <string name="ntrip_server_dialog_title">NTRIP server settings</string>
     <string name="file_filename_title">Filename</string>
     <string name="file_filename_summary">can included %Y (year) %m (month) %d (day) %h (hour) %M (minutes) %S (seconds) for dynamic naming</string>
@@ -857,3 +856,4 @@
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
 </resources>
+
