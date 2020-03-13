@@ -29,6 +29,7 @@
     <string name="menu_map_mode_geoportail_orthoimages">Geoportail aerial</string>
     <string name="local_service_started">Local service started</string>
     <string name="local_service_stopped">Local service stopped</string>
+    <string name="local_service_notification_content">%s since %s</string>
     <string name="local_service_label">RtkGps</string>
     <string name="sky_plot_north">N</string>
     <string name="sky_plot_west">W</string>
