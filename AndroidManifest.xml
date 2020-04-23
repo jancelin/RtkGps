@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	package="gpsplus.rtkgps"
-	android:versionCode="26"
-	android:versionName="1.0 Alpha 26">
+	android:versionCode="27"
+	android:versionName="1.1 Alpha 27">
 
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
