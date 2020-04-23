@@ -1,0 +1,6 @@
+Android NDK: WARNING: Ignoring unknown import directory: null/jni    
+Android NDK: WARNING: Unsupported source file extensions in C:\Users\Desktop\Desktop\RTKGPS\RtkGps3\jni\Android.mk for module proj    
+Android NDK:   proj4/src/pj_list.h proj4/src/proj_internal.h proj4/src/proj_math.h proj4/src/emess.h proj4/src/geocent.h    
+Android NDK: WARNING: Unsupported source file extensions in C:\Users\Desktop\Desktop\RTKGPS\RtkGps3\jni\Android.mk for module rtklib    
+Android NDK:   LOCAL_SRC_FILES +=    
+make: `C:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj/local/x86_64/libntripcaster.so' is up to date.

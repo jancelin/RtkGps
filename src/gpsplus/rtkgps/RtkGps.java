@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.StrictMode;
 import android.util.Log;
-import android.util.PoGoPin;
 
 import gpsplus.ntripcaster.NTRIPCaster;
 

@@ -11,7 +11,6 @@ import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.EditText;
 
 import gpsplus.rtkgps.BuildConfig;
 import gpsplus.rtkgps.R;
@@ -21,7 +20,6 @@ import gpsplus.rtkgps.settings.widget.IonosphereCorrectionPreference;
 import gpsplus.rtkgps.settings.widget.MultiSelectListPreferenceWorkaround;
 import gpsplus.rtkgps.settings.widget.PositioningModePreference;
 import gpsplus.rtkgps.settings.widget.TroposphereCorrectionPreference;
-import gpsplus.rtkgps.utils.PreciseEphemerisProvider;
 import gpsplus.rtklib.ProcessingOptions;
 import gpsplus.rtklib.constants.EarthTideCorrectionType;
 import gpsplus.rtklib.constants.EphemerisOption;

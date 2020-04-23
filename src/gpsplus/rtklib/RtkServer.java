@@ -1,7 +1,5 @@
 package gpsplus.rtklib;
 
-import android.util.Log;
-
 import gpsplus.rtkgps.MainActivity;
 import proguard.annotation.Keep;
 

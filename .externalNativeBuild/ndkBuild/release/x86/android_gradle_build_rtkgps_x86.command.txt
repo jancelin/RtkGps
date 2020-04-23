@@ -1,0 +1,14 @@
+Executable : C:\Users\Desktop\AppData\Local\Android\Sdk\ndk-bundle\ndk-build.cmd
+arguments : 
+NDK_PROJECT_PATH=null
+APP_BUILD_SCRIPT=C:\Users\Desktop\Desktop\RTKGPS\RtkGps3\jni\Android.mk
+NDK_APPLICATION_MK=C:\Users\Desktop\Desktop\RTKGPS\RtkGps3\jni\Application.mk
+APP_ABI=x86
+NDK_ALL_ABIS=x86
+NDK_DEBUG=0
+APP_PLATFORM=android-21
+NDK_OUT=C:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj
+NDK_LIBS_OUT=C:\Users\Desktop\Desktop\RTKGPS\RtkGps3\build\intermediates\ndkBuild\release\lib
+C:/Users/Desktop/Desktop/RTKGPS/RtkGps3/build/intermediates/ndkBuild/release/obj/local/x86/librtkgps.so
+jvmArgs : 
+

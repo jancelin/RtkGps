@@ -13,7 +13,6 @@ import gpsplus.rtkgps.utils.HTTPDownloader;
 import gpsplus.rtkgps.utils.IDownloaderAccessResponse;
 import gpsplus.rtkgps.utils.PreciseEphemerisDownloader;
 import gpsplus.rtkgps.utils.PreciseEphemerisProvider;
-import gpsplus.rtklib.RtkCommon;
 import gpsplus.rtklib.constants.EphemerisOption;
 
 import java.io.File;

@@ -37,8 +37,6 @@ import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import org.acra.util.ToastSender;
-
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.BindView;

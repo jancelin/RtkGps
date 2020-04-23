@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gpsplus.rtkgps"
-    android:versionCode="26"
-    android:versionName="1.0 Alpha 26" >
+	xmlns:tools="http://schemas.android.com/tools"
+	package="gpsplus.rtkgps"
+	android:versionCode="26"
+	android:versionName="1.0 Alpha 26">
 
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -31,7 +32,7 @@
         android:icon="@drawable/ic_launcher"
         android:installLocation="auto"
         android:label="@string/app_name"
-        android:name="RtkGps"
+        android:name="gpsplus.rtkgps.RtkGps"
         android:theme="@style/AppTheme" >
         <activity
             android:name="gpsplus.rtkgps.MainActivity"
@@ -57,26 +58,26 @@
                       android:resource="@xml/usb_device_filter" />
         </activity>
 
-		<activity android:name=".settings.SettingsActivity"
+		<activity android:name="gpsplus.rtkgps.settings.SettingsActivity"
 			android:parentActivityName="gpsplus.rtkgps.MainActivity" >
 		</activity>
 
         <activity
-            android:name=".settings.StreamSettingsActivity"
+            android:name="gpsplus.rtkgps.settings.StreamSettingsActivity"
             android:label="@string/title_activity_input_stream_settings"
             android:parentActivityName="gpsplus.rtkgps.MainActivity" >
         </activity>
         
         <activity
-            android:name=".settings.StreamDialogActivity"
+            android:name="gpsplus.rtkgps.settings.StreamDialogActivity"
             android:theme="@android:style/Theme.Holo.Dialog.MinWidth" />
         
         <activity
-            android:name=".settings.StartupShutdownSettingsActivity"
+            android:name="gpsplus.rtkgps.settings.StartupShutdownSettingsActivity"
             android:theme="@android:style/Theme.Holo.Dialog"  />
         
 		<activity
-            android:name=".settings.StationPositionActivity"
+            android:name="gpsplus.rtkgps.settings.StationPositionActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
             android:name="gpsplus.rtkgps.ToolsActivity"
@@ -88,7 +89,7 @@
 		     />
         
 		<service 
-            android:name=".RtkNaviService"
+            android:name="gpsplus.rtkgps.RtkNaviService"
             android:exported="false" >
 			<intent-filter>
 			    <action android:name="gpsplus.rtkgps.RtkNaviService.START" />

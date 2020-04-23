@@ -2,13 +2,10 @@ package gpsplus.rtkgps.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 
 //import com.dropbox.sync.android.DbxAccountManager;
 
-import gpsplus.rtkgps.MainActivity;
 import gpsplus.rtkgps.R;
 
 

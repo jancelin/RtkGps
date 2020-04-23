@@ -2,9 +2,6 @@ package gpsplus.rtklib;
 
 import android.annotation.SuppressLint;
 
-import gpsplus.rtklib.RtkCommon.Dops;
-import gpsplus.rtklib.constants.Constants;
-
 import junit.framework.Assert;
 
 import java.text.DecimalFormat;
@@ -12,6 +9,9 @@ import java.util.Arrays;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nullable;
+
+import gpsplus.rtklib.RtkCommon.Dops;
+import gpsplus.rtklib.constants.Constants;
 
 public class RtkServerObservationStatus {
 
