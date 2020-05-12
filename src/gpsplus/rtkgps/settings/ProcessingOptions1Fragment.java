@@ -157,7 +157,7 @@ public class ProcessingOptions1Fragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //getPreferenceManager().setSharedPreferencesName(SHARED_PREFS_NAME);
+        getPreferenceManager().setSharedPreferencesName(SHARED_PREFS_NAME);
         addPreferencesFromResource(R.xml.processing_options1);
 
         initSettings1();

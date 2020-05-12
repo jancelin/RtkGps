@@ -6,12 +6,12 @@
         android:title="@string/procopt_positioning_mode_title" />
 
     <ListPreference
-		android:defaultValue="2"
         android:dialogTitle="@string/procopt_number_of_freqencies_dialog_title"
         android:entries="@array/procopt_number_of_frequencies_entries"
         android:entryValues="@array/procopt_number_of_frequencies_values"
         android:key="number_of_frequencies"
-        android:title="@string/procopt_number_of_freqencies_title" />
+        android:title="@string/procopt_number_of_freqencies_title"
+		android:defaultValue="4"/>
 
     <gpsplus.rtkgps.settings.widget.MultiSelectListPreferenceWorkaround
         android:dialogTitle="@string/procopt_navigation_system_dialog_title"
