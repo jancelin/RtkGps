@@ -20,7 +20,7 @@ public class GeoportailWMTSTileSource extends OnlineTileSourceBase {
 
 
     private  static String[] getUrl() {
-        return new String[]{"https://wxs.ign.fr/00dbijqtbt4oawuw30ne81uk/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM"
+        return new String[]{"https://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM"
         };
     }
 

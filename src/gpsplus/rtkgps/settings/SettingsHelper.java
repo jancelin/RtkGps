@@ -351,6 +351,9 @@ public class SettingsHelper {
         case TCPCLI:
             settings = StreamTcpClientFragment.readSettings(prefs);
             break;
+        case TCPSVR:
+            settings = StreamTcpServerFragment.readSettings(prefs);
+            break;
         case UDPCLI:
             settings = StreamUdpClientFragment.readSettings(prefs);
             break;
@@ -408,6 +411,9 @@ public class SettingsHelper {
             break;
         case TCPCLI:
             summary = StreamTcpClientFragment.readSummary(prefs);
+            break;
+        case TCPSVR:
+            summary = StreamTcpServerFragment.readSummary(prefs);
             break;
         case UDPCLI:
             summary = StreamUdpClientFragment.readSummary(prefs);
@@ -500,6 +506,47 @@ public class SettingsHelper {
           .setMountpoint(matcher.group(MOUNTPOINT));
        return value;
    }
+
+    @Nonnull
+    static String encodeTcpsvrPath(
+            @Nullable String host,
+            @Nullable String port,
+            @Nullable String str) {
+        StringBuilder path;
+        path = new StringBuilder();
+
+        if (TextUtils.isEmpty(host)) host = "127.0.0.1";
+
+        path.append(host);
+        if (!TextUtils.isEmpty(port)) {
+            path.append(':').append(port);
+        }
+
+        path.append('/');
+
+        if (!TextUtils.isEmpty(str)) {
+            path.append(':').append(str);
+        }
+
+        return path.toString();
+    }
+
+    static StreamTcpServerFragment.Value decodeTcpsvrPath(String path) {
+        StreamTcpServerFragment.Value value = new StreamTcpServerFragment.Value();
+        Pattern pattern = Pattern.compile(NTRIP_REGEX);
+        Matcher matcher = pattern.matcher(path);
+        if (!matcher.find()) {
+            return null;
+        }
+        value
+                .setHost(matcher.group(HOST))
+                .setPort(
+                        matcher.group(PORT) == null
+                                ? StreamTcpServerFragment.Value.DEFAULT_PORT
+                                : Integer.parseInt(matcher.group(PORT))
+                );
+        return value;
+    }
 
    static String fixEmpty(String value) {
       return value == null ? "" : value;

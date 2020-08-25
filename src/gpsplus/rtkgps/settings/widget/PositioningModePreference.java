@@ -19,7 +19,7 @@ public class PositioningModePreference extends EnumListPreference<PositioningMod
 
     private void setDefaults() {
         setValues(PositioningMode.values());
-        setDefaultValue(PositioningMode.SINGLE);
+        setDefaultValue(PositioningMode.KINEMA);
     }
 
 }

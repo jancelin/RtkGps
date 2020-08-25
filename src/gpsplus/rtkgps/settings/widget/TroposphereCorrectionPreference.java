@@ -19,7 +19,7 @@ public class TroposphereCorrectionPreference extends EnumListPreference<Troposph
 
     private void setDefaults() {
         setValues(TroposphereOption.values());
-        setDefaultValue(TroposphereOption.OFF);
+        setDefaultValue(TroposphereOption.SAAS);
     }
 
 }

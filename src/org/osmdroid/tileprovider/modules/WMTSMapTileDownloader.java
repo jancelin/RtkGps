@@ -74,7 +74,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
     // ===========================================================
     private static final boolean DBG = BuildConfig.DEBUG & true;
     static final String TAG = WMTSMapTileDownloader.class.getSimpleName();
-
+    private static int MAXIMUM_ZOOMLEVEL = 26;
     // ===========================================================
     // Fields
     // ===========================================================
@@ -223,12 +223,14 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                         String responseAsString = EntityUtils.toString(response.getEntity());
                         Log.d(TAG,responseAsString);
                     }
+                    ((DefaultHttpClient) httpClient).close();
                     return null;
                 }
 
                 final HttpEntity entity = response.getEntity();
                 if (entity == null) {
                     Log.w(TAG,"WMTSMapTileDownloader -- No content downloading MapTile: " + tile);
+                    ((DefaultHttpClient) httpClient).close();
                     return null;
                 }
                 in = entity.getContent();
@@ -247,6 +249,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 }
                 final Drawable result = mTileSource.getDrawable(byteStream);
 
+                ((DefaultHttpClient) httpClient).close();
                 return result;
             } catch (final UnknownHostException e) {
                 // no network connection so empty the queue
@@ -317,6 +320,14 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
 
     } // end getNewHttpClient
 
+    public void finalyze() {
+        HttpClient httpClient = this.getNewHttpClient();
+        if (null != httpClient) {
+
+
+        }
+    }
+
     /**
      * Socket factory for trusting all certs.
      */
@@ -342,7 +353,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 }
             };
 
-            sslContext.init(null, new TrustManager[] { tm }, null);
+            sslContext.init(null, new TrustManager[] {tm}, null);
         }
 
         @Override

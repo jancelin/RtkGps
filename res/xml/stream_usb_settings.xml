@@ -6,7 +6,7 @@
         android:title="@string/usb_device_baudrate_title"
         android:entries="@array/usb_device_baudrate_entries"
         android:entryValues="@array/usb_device_baudrate_entries"
-        android:defaultValue="38400" />
+        android:defaultValue="115200" />
 
     <ListPreference
         android:key="stream_usb_data_bits"

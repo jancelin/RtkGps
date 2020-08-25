@@ -16,12 +16,12 @@ import gpsplus.rtklib.RtkServerSettings.TransportSettings;
 import gpsplus.rtklib.constants.StreamType;
 
 
-public class StreamTcpClientFragment extends PreferenceFragment {
+public class StreamTcpServerFragment extends PreferenceFragment {
 
     private static final boolean DBG = BuildConfig.DEBUG & true;
 
-    private static final String KEY_HOST = "stream_tcp_client_host";
-    private static final String KEY_PORT = "stream_tcp_client_port";
+    private static final String KEY_HOST = "stream_tcp_server_host";
+    private static final String KEY_PORT = "stream_tcp_server_port";
 
     private final PreferenceChangeListener mPreferenceChangeListener;
 
@@ -31,8 +31,8 @@ public class StreamTcpClientFragment extends PreferenceFragment {
         private String host;
         private int port;
 
-        public static final String DEFAULT_HOST = "home.complement-terre.fr";
-        public static final int DEFAULT_PORT = 5015;
+        public static final String DEFAULT_HOST = "127.0.0.1";
+        public static final int DEFAULT_PORT = 9000;
 
         public Value() {
             host = DEFAULT_HOST;
@@ -46,26 +46,23 @@ public class StreamTcpClientFragment extends PreferenceFragment {
         }
 
         public Value setPort(int port) {
-            if (port <= 0 || port > 65535) throw new IllegalArgumentException();
+//            if (port <= 0 || port > 65535) throw new IllegalArgumentException();
             this.port = port;
             return this;
         }
 
         @Override
         public StreamType getType() {
-            return StreamType.TCPCLI;
+            return StreamType.TCPSVR;
         }
 
         @Override
         public String getPath() {
-            return SettingsHelper.encodeNtripTcpPath(
-                    null,
-                    null,
+            return SettingsHelper.encodeTcpsvrPath(
                     host,
-                    String.valueOf(port),
-                    null,
+                    String.valueOf(9000),
                     null
-                    );
+            );
         }
 
         @Override
@@ -83,10 +80,10 @@ public class StreamTcpClientFragment extends PreferenceFragment {
         }
     }
 
-    public StreamTcpClientFragment() {
+    public StreamTcpServerFragment() {
         super();
         mPreferenceChangeListener = new PreferenceChangeListener();
-        mSharedPrefsName = StreamNtripClientFragment.class.getSimpleName();
+        mSharedPrefsName = StreamTcpServerFragment.class.getSimpleName();
     }
 
     @Override
@@ -118,9 +115,9 @@ public class StreamTcpClientFragment extends PreferenceFragment {
         prefs = ctx.getSharedPreferences(sharedPrefsName, Context.MODE_PRIVATE);
 
         prefs.edit()
-            .putString(KEY_HOST, value.host)
-            .putString(KEY_PORT, String.valueOf(value.port))
-            .apply();
+                .putString(KEY_HOST, value.host)
+                .putString(KEY_PORT, String.valueOf(value.port))
+                .apply();
     }
 
     @Override
@@ -158,13 +155,14 @@ public class StreamTcpClientFragment extends PreferenceFragment {
 
     public static Value readSettings(SharedPreferences prefs) {
         return new Value()
-            .setHost(prefs.getString(KEY_HOST, ""))
-            .setPort(Integer.valueOf(prefs.getString(KEY_PORT, "0")))
-            ;
+                .setHost(prefs.getString(KEY_HOST,""))
+                .setPort(Integer.valueOf(prefs.getString(KEY_PORT, "0")))
+                ;
     }
 
     public static String readSummary(SharedPreferences prefs) {
-        return "tcpcli:" + readSettings(prefs).getPath();
+        Log.d("ASPARUH","tcpsvr:" + readSettings(prefs).getPath() );
+        return "tcpsvr:" + readSettings(prefs).getPath();
     }
 
 

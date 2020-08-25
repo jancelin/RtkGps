@@ -610,6 +610,10 @@
   <string name="tcp_client_dialog_title">Paramètres client TCP</string>
   <string name="tcp_client_host_title">Hôte</string>
   <string name="tcp_client_port_title">Port</string>
+  <!-- TCP server stream preferences -->
+  <string name="tcp_server_dialog_title">TCP server settings</string>
+  <string name="tcp_server_host_title">Host</string>
+  <string name="tcp_server_port_title">Port</string>
   <!-- UDP client stream preferences -->
   <string name="udp_client_dialog_title">Paramètres client UDP</string>
   <string name="udp_client_host_title">Hôte</string>

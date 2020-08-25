@@ -36,11 +36,11 @@ public class StreamNtripClientFragment extends PreferenceFragment {
         private @Nonnull String user;
         private @Nonnull String password;
 
-        public static final String DEFAULT_HOST = "rt.igs-ip.net";
+        public static final String DEFAULT_HOST = "caster.centipede.fr";
         public static final int DEFAULT_PORT = 2101;
-        public static final String DEFAULT_MOUNTPOUNT = "BRST0";
-        public static final String DEFAULT_USER = "request-user";
-        public static final String DEFAULT_PASSWORD = "password";
+        public static final String DEFAULT_MOUNTPOUNT = "CT2";
+        public static final String DEFAULT_USER = "";
+        public static final String DEFAULT_PASSWORD = "";
 
         public Value() {
             host = DEFAULT_HOST;

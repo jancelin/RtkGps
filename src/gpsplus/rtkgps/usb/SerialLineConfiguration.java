@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
  */
 public class SerialLineConfiguration {
 
-    public static final int DEFAULT_BAUDRATE = 38400;
+    public static final int DEFAULT_BAUDRATE = 115200;
     public static final int DEFAULT_DATA_BITS = 8;
     public static final Parity DEFAULT_PARITY = Parity.NONE;
     public static final StopBits DEFAULT_STOP_BITS = StopBits.STOP_BITS_1;

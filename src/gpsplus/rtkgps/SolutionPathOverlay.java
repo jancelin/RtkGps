@@ -32,7 +32,7 @@ public class SolutionPathOverlay extends PathOverlay {
 
     private static final int DEFAULT_SIZE = 1000;
     private static final int PATH_COLOR = Color.GRAY;
-
+	private static int MAXIMUM_ZOOMLEVEL = 22;
 
     private final int[] mProjectedX;
     private final int[] mProjectedY;
@@ -113,7 +113,7 @@ public class SolutionPathOverlay extends PathOverlay {
 
 	    // Performs the first computationally heavy part of the projection.
 	    final Point projected = TileSystem.LatLongToPixelXY(lat,
-	            lon, MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
+	            lon, MAXIMUM_ZOOMLEVEL, null);
         mProjectedX[tail] = projected.x;
         mProjectedY[tail] = projected.y;
 

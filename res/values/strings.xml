@@ -181,7 +181,7 @@
     <string name="strfmt_rtcm3">RTCM 3</string>
     <string name="strfmt_oem4">NovAtel OEMV/4</string>
     <string name="strfmt_oem3">NovAtel OEMV/3</string>
-    <string name="strfmt_ubx">u-blox LEA-*T</string>
+    <string name="strfmt_ubx">u-blox</string>
     <string name="strfmt_ss2">NovAtel Superstar II</string>
     <string name="strfmt_cres">Hemisphere</string>
     <string name="strfmt_stq">SkyTraq S1315F</string>
@@ -702,6 +702,12 @@
 	<string name="tcp_client_dialog_title">TCP client settings</string>
     <string name="tcp_client_host_title">Host</string>
     <string name="tcp_client_port_title">Port</string>
+
+    <!-- TCP server stream preferences -->
+    <string name="tcp_server_dialog_title">TCP server settings</string>
+    <string name="tcp_server_host_title">Host</string>
+    <string name="tcp_server_port_title">Port</string>
+
 
     <!-- UDP client stream preferences -->
     <string name="udp_client_dialog_title">UDP client settings</string>

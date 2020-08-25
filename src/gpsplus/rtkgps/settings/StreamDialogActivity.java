@@ -76,9 +76,8 @@ public class StreamDialogActivity extends Activity {
             title = R.string.mobilemapper_dialog_title;
             break;
         case TCPSVR:
-            // TODO
-            fragment = new StreamNtripClientFragment();
-            title = R.string.ntrip_client_dialog_title;
+            fragment = new StreamTcpServerFragment();
+            title = R.string.tcp_server_dialog_title;
             break;
         default:
             throw new IllegalArgumentException("wrong ARG_FRAGMENT_ARGUMENTS");

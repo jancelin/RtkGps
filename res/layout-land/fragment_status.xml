@@ -54,7 +54,7 @@
 	    android:layout_toLeftOf="@+id/status_main_view"
 	    android:minEms="10"
 	    android:minLines="3"
-	    android:textColor="@android:color/darker_gray"
+	    android:textColor="@android:color/white"
 	    android:textIsSelectable="true"
 	    android:textSize="10sp" />
 	

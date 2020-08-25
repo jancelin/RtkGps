@@ -19,7 +19,7 @@ public class IonosphereCorrectionPreference extends EnumListPreference<Ionospher
 
     private void setDefaults() {
         setValues(IonosphereOption.values());
-        setDefaultValue(IonosphereOption.OFF);
+        setDefaultValue(IonosphereOption.BRDC);
     }
 
 }

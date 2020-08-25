@@ -189,6 +189,8 @@ public class ProcessingOptions {
          */
         private int refpos;
 
+        private int weightmode;
+
         /** code/phase error ratio */
         private double eratioL1;
         private double eratioL2;
@@ -199,6 +201,7 @@ public class ProcessingOptions {
         private double errPhaseB;
         private double errPhaseC;
         private double errDopplerFreq;
+        private double snrmax;
 
         /** initial-state std */
         private double stdBias;
@@ -331,6 +334,7 @@ public class ProcessingOptions {
         mNative.sbassatsel = src.mNative.sbassatsel;
         mNative.rovpos = src.mNative.rovpos;
         mNative.refpos = src.mNative.refpos;
+        mNative.weightmode = src.mNative.weightmode;
         mNative.eratioL1 = src.mNative.eratioL1;
         mNative.eratioL2 = src.mNative.eratioL2;
         mNative.eratioL5 = src.mNative.eratioL5;
@@ -338,6 +342,7 @@ public class ProcessingOptions {
         mNative.errPhaseB = src.mNative.errPhaseB;
         mNative.errPhaseC = src.mNative.errPhaseC;
         mNative.errDopplerFreq = src.mNative.errDopplerFreq;
+        mNative.snrmax = src.mNative.snrmax;
         mNative.stdBias = src.mNative.stdBias;
         mNative.stdIono = src.mNative.stdIono;
         mNative.stdTrop = src.mNative.stdTrop;
