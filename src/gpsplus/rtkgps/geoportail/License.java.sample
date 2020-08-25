@@ -6,7 +6,7 @@ public class License {
     //so you need to obtain a developer key from http://api.ign.fr for free
     //next rename this file License.java and set your key
 
-    private static final String KEY = "00dbijqtbt4oawuw30ne81uk";  // Developer key can be obtained for 90 days from http://api.ign.fr
+    private static final String KEY = "choisirgeoportail";  // Developer key can be obtained for 90 days from http://api.ign.fr
     private static final String USER_AGENT = "Android";            // key dependent
     public static String getKey() {
         return License.KEY;

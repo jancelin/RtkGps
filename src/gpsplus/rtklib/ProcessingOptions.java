@@ -652,7 +652,7 @@ public class ProcessingOptions {
         return this.mNative.elmaskhold;
     }
     public void setMinElevationToHoldAmbiguityRad(double mineleva){
-        this.mNative.elmaskar = mineleva;
+        this.mNative.elmaskhold = mineleva;
     }
     public double getMinElevationToFixAmbiguityRad(){
         return this.mNative.elmaskar;
