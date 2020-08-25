@@ -1,7 +1,5 @@
 package gpsplus.rtkgps;
 
-import static junit.framework.Assert.assertNotNull;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -18,20 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.ButterKnife;
-import butterknife.BindView;
-import gpsplus.rtkgps.geoportail.GeoportailLayer;
-import gpsplus.rtkgps.geoportail.GeoportailWMTSTileSource;
-import gpsplus.rtkgps.view.GTimeView;
-import gpsplus.rtkgps.view.SolutionView;
-import gpsplus.rtkgps.view.StreamIndicatorsView;
-import gpsplus.rtklib.RtkCommon;
-import gpsplus.rtklib.RtkCommon.Position3d;
-import gpsplus.rtklib.RtkControlResult;
-import gpsplus.rtklib.RtkServerStreamStatus;
-import gpsplus.rtklib.Solution;
-import gpsplus.rtklib.constants.SolutionStatus;
-
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -45,8 +29,27 @@ import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer;
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import gpsplus.rtkgps.geoportail.GeoportailLayer;
+import gpsplus.rtkgps.geoportail.GeoportailWMTSTileSource;
+import gpsplus.rtkgps.view.GTimeView;
+import gpsplus.rtkgps.view.SolutionView;
+import gpsplus.rtkgps.view.StreamIndicatorsView;
+import gpsplus.rtklib.RtkCommon;
+import gpsplus.rtklib.RtkCommon.Position3d;
+import gpsplus.rtklib.RtkControlResult;
+import gpsplus.rtklib.RtkServerSettings;
+import gpsplus.rtklib.RtkServerStreamStatus;
+import gpsplus.rtklib.Solution;
+import gpsplus.rtklib.constants.SolutionStatus;
+
+import static junit.framework.Assert.assertNotNull;
 
 public class MapFragment extends Fragment {
 
@@ -59,9 +62,9 @@ public class MapFragment extends Fragment {
     private static final String PREFS_SCROLL_Y = "scroll_y";
     private static final String PREFS_ZOOM_LEVEL = "zoom_level";
 
-    private static final String MAP_MODE_BING="BingMap";
-    private static final String MAP_MODE_BING_AERIAL="Bing aerial";
-    private static final String MAP_MODE_BING_ROAD="Bing road";
+    private static final String MAP_MODE_BING = "BingMap";
+    private static final String MAP_MODE_BING_AERIAL = "Bing aerial";
+    private static final String MAP_MODE_BING_ROAD = "Bing road";
 
     private Timer mStreamStatusUpdateTimer;
     private RtkServerStreamStatus mStreamStatus;
@@ -78,14 +81,35 @@ public class MapFragment extends Fragment {
 
     private RtkControlResult mRtkStatus;
 
-    @BindView(R.id.streamIndicatorsView) StreamIndicatorsView mStreamIndicatorsView;
-    @BindView(R.id.map_container) ViewGroup mMapViewContainer;
-    @BindView(R.id.gtimeView) GTimeView mGTimeView;
-    @BindView(R.id.solutionView) SolutionView mSolutionView;
+    @BindView(R.id.streamIndicatorsView)
+    StreamIndicatorsView mStreamIndicatorsView;
+    @BindView(R.id.map_container)
+    ViewGroup mMapViewContainer;
+    @BindView(R.id.gtimeView)
+    GTimeView mGTimeView;
+    @BindView(R.id.solutionView)
+    SolutionView mSolutionView;
 
     private MapView mMapView;
     private MapTileProviderBase mGeoportailTileProvider;
 
+    private static class MyErrDump extends PrintStream {
+        public MyErrDump( OutputStream destination) {
+            super(destination);
+        }
+
+        public synchronized void println(String str) {
+            super.println(str);
+            if (str.equals("StrictMode VmPolicy violation with POLICY_DEATH; shutting down.")) {
+                super.println("CGDEBUG - Trapped StrictMode shutdown notice: heap data");
+                try {
+                    android.os.Debug.dumpHprofData("/sdcard/RtkGps/strictmode-death-penalty.hprof");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     public MapFragment() {
         mStreamStatus = new RtkServerStreamStatus();
@@ -102,7 +126,7 @@ public class MapFragment extends Fragment {
         mBingRoadTileSource.setStyle(BingMapTileSource.IMAGERYSET_ROAD);
         mBingAerialTileSource = new BingMapTileSource(null);
         mBingAerialTileSource.setStyle(BingMapTileSource.IMAGERYSET_AERIAL);
-        mGeoportailCadastralTileSource = new GeoportailWMTSTileSource(null,GeoportailLayer.CADASTRALPARCELS);
+        mGeoportailCadastralTileSource = new GeoportailWMTSTileSource(null, GeoportailLayer.CADASTRALPARCELS);
         mGeoportailMapTileSource = new GeoportailWMTSTileSource(null, GeoportailLayer.MAPS);
         mGeoportailOrthoimageTileSource = new GeoportailWMTSTileSource(null, GeoportailLayer.ORTHOIMAGE);
     }
@@ -110,13 +134,15 @@ public class MapFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        System.setErr(new MyErrDump(System.err));
         super.onCreate(savedInstanceState);
+        System.setErr(new MyErrDump(System.err));
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         final Context context;
         final DisplayMetrics dm;
 
@@ -128,10 +154,9 @@ public class MapFragment extends Fragment {
 
         final int actionBarHeight;
         TypedValue tv = new TypedValue();
-        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-        }else {
+        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        } else {
             actionBarHeight = 48;
         }
 //ON WORK
@@ -139,7 +164,7 @@ public class MapFragment extends Fragment {
         //also trust all certificates for communicating via https
         mGeoportailTileProvider = new org.osmdroid.tileprovider.modules.WMTSMapTileProviderBasic(inflater.getContext());
 
-        mMapView = new MapView(inflater.getContext(), 256, mResourceProxy,mGeoportailTileProvider);
+        mMapView = new MapView(inflater.getContext(), 256, mResourceProxy, mGeoportailTileProvider);
         mMapView.setBuiltInZoomControls(true);
         mMapView.setMultiTouchControls(true);
         mMapView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -155,7 +180,7 @@ public class MapFragment extends Fragment {
 
         mScaleBarOverlay = new ScaleBarOverlay(context);
         mScaleBarOverlay.setCentred(true);
-        mScaleBarOverlay.setScaleBarOffset(dm.widthPixels/2, (int)(actionBarHeight + 5.0f * dm.density));
+        mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, (int) (actionBarHeight + 5.0f * dm.density));
 
         mMapView.getOverlays().add(mPathOverlay);
         mMapView.getOverlays().add(mScaleBarOverlay);
@@ -181,6 +206,7 @@ public class MapFragment extends Fragment {
                             MapFragment.this.updateStatus();
                         }
                     };
+
                     @Override
                     public void run() {
                         Activity a = getActivity();
@@ -213,16 +239,15 @@ public class MapFragment extends Fragment {
         final String providerName = getTileSourceName();
         if (MAP_MODE_BING_AERIAL.equals(providerName)) {
             checked = R.id.menu_map_mode_bing_aerial;
-        }else if (MAP_MODE_BING_ROAD.equals(providerName)) {
+        } else if (MAP_MODE_BING_ROAD.equals(providerName)) {
             checked = R.id.menu_map_mode_bing_road;
-        }else if (GeoportailLayer.CADASTRALPARCELS.getLayer().equals(providerName)) {
+        } else if (GeoportailLayer.CADASTRALPARCELS.getLayer().equals(providerName)) {
             checked = R.id.menu_map_mode_geoportail_cadastral;
-        }else if (GeoportailLayer.MAPS.getLayer().equals(providerName)) {
+        } else if (GeoportailLayer.MAPS.getLayer().equals(providerName)) {
             checked = R.id.menu_map_mode_geoportail_map;
-        }else if (GeoportailLayer.ORTHOIMAGE.getLayer().equals(providerName)) {
+        } else if (GeoportailLayer.ORTHOIMAGE.getLayer().equals(providerName)) {
             checked = R.id.menu_map_mode_geoportail_orthoimages;
-        }
-        else {
+        } else {
             checked = R.id.menu_map_mode_osm;
         }
 
@@ -254,7 +279,7 @@ public class MapFragment extends Fragment {
         mMyLocationOverlay = null;
         mCompassOverlay = null;
         mScaleBarOverlay = null;
-       // ButterKnife.reset(this);
+        // ButterKnife.reset(this);
     }
 
     @Override
@@ -263,26 +288,26 @@ public class MapFragment extends Fragment {
         final String tileSource;
 
         switch (item.getItemId()) {
-        case R.id.menu_map_mode_osm:
-            tileSource = TileSourceFactory.MAPNIK.name();
-            break;
-        case R.id.menu_map_mode_bing_aerial:
-            tileSource = MAP_MODE_BING_AERIAL;
-            break;
-        case R.id.menu_map_mode_bing_road:
-            tileSource = MAP_MODE_BING_ROAD;
-            break;
-        case R.id.menu_map_mode_geoportail_cadastral:
-            tileSource = GeoportailLayer.CADASTRALPARCELS.getLayer();
-            break;
-        case R.id.menu_map_mode_geoportail_orthoimages:
-            tileSource = GeoportailLayer.ORTHOIMAGE.getLayer();
-            break;
-        case R.id.menu_map_mode_geoportail_map:
-            tileSource = GeoportailLayer.MAPS.getLayer();
-            break;
-        default:
-            return super.onOptionsItemSelected(item);
+            case R.id.menu_map_mode_osm:
+                tileSource = TileSourceFactory.MAPNIK.name();
+                break;
+            case R.id.menu_map_mode_bing_aerial:
+                tileSource = MAP_MODE_BING_AERIAL;
+                break;
+            case R.id.menu_map_mode_bing_road:
+                tileSource = MAP_MODE_BING_ROAD;
+                break;
+            case R.id.menu_map_mode_geoportail_cadastral:
+                tileSource = GeoportailLayer.CADASTRALPARCELS.getLayer();
+                break;
+            case R.id.menu_map_mode_geoportail_orthoimages:
+                tileSource = GeoportailLayer.ORTHOIMAGE.getLayer();
+                break;
+            case R.id.menu_map_mode_geoportail_map:
+                tileSource = GeoportailLayer.MAPS.getLayer();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
         setTileSource(tileSource);
@@ -296,7 +321,7 @@ public class MapFragment extends Fragment {
         int serverStatus;
 
         // XXX
-        ma = (MainActivity)getActivity();
+        ma = (MainActivity) getActivity();
 
         if (ma == null) return;
 
@@ -304,7 +329,7 @@ public class MapFragment extends Fragment {
         if (rtks == null) {
             serverStatus = RtkServerStreamStatus.STATE_CLOSE;
             mStreamStatus.clear();
-        }else {
+        } else {
             rtks.getStreamStatus(mStreamStatus);
             rtks.getRtkStatus(mRtkStatus);
             serverStatus = rtks.getServerStatus();
@@ -322,13 +347,13 @@ public class MapFragment extends Fragment {
     private void saveMapPreferences() {
 
         getActivity()
-            .getSharedPreferences(SHARED_PREFS_NAME,Context.MODE_PRIVATE)
-            .edit()
-            .putString(PREFS_TITLE_SOURCE, getTileSourceName())
-            .putInt(PREFS_SCROLL_X, mMapView.getScrollX())
-            .putInt(PREFS_SCROLL_Y, mMapView.getScrollY())
-            .putInt(PREFS_ZOOM_LEVEL, mMapView.getZoomLevel())
-            .commit();
+                .getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString(PREFS_TITLE_SOURCE, getTileSourceName())
+                .putInt(PREFS_SCROLL_X, mMapView.getScrollX())
+                .putInt(PREFS_SCROLL_Y, mMapView.getScrollY())
+                .putInt(PREFS_ZOOM_LEVEL, mMapView.getZoomLevel())
+                .commit();
 
     }
 
@@ -343,7 +368,7 @@ public class MapFragment extends Fragment {
         mMapView.scrollTo(
                 prefs.getInt(PREFS_SCROLL_X, 0),
                 prefs.getInt(PREFS_SCROLL_Y, 0)
-                );
+        );
     }
 
     private void setTileSource(String name) {
@@ -351,18 +376,18 @@ public class MapFragment extends Fragment {
 
         if (MAP_MODE_BING_AERIAL.equals(name)) {
             tileSource = mBingAerialTileSource;
-        }else if (MAP_MODE_BING_ROAD.equals(name)) {
+        } else if (MAP_MODE_BING_ROAD.equals(name)) {
             tileSource = mBingRoadTileSource;
-        }else if (GeoportailLayer.CADASTRALPARCELS.getLayer().equals(name)) {
+        } else if (GeoportailLayer.CADASTRALPARCELS.getLayer().equals(name)) {
             tileSource = mGeoportailCadastralTileSource;
-        }else if (GeoportailLayer.MAPS.getLayer().equals(name)) {
+        } else if (GeoportailLayer.MAPS.getLayer().equals(name)) {
             tileSource = mGeoportailMapTileSource;
-        }else if (GeoportailLayer.ORTHOIMAGE.getLayer().equals(name)) {
+        } else if (GeoportailLayer.ORTHOIMAGE.getLayer().equals(name)) {
             tileSource = mGeoportailOrthoimageTileSource;
-        }else {
+        } else {
             try {
                 tileSource = TileSourceFactory.getTileSource(name);
-            }catch(IllegalArgumentException iae) {
+            } catch (IllegalArgumentException iae) {
                 tileSource = TileSourceFactory.MAPNIK;
             }
         }
@@ -376,9 +401,9 @@ public class MapFragment extends Fragment {
         final ITileSource provider = mMapView.getTileProvider().getTileSource();
 
         if (MAP_MODE_BING.equals(provider.name())) {
-            if (BingMapTileSource.IMAGERYSET_ROAD.equals(((BingMapTileSource)provider).getStyle())) {
+            if (BingMapTileSource.IMAGERYSET_ROAD.equals(((BingMapTileSource) provider).getStyle())) {
                 return MAP_MODE_BING_ROAD;
-            }else {
+            } else {
                 return MAP_MODE_BING_AERIAL;
             }
         }else {
@@ -417,11 +442,14 @@ public class MapFragment extends Fragment {
 
         private void setSolution(Solution s, boolean notifyConsumer) {
             Position3d pos;
+
+            if (DBG) Log.i(TAG, "setSolution in " + s.getSolutionStatus().toString());
+
             if (MainActivity.getDemoModeLocation().isInDemoMode() && RtkNaviService.mbStarted) {
-                pos=MainActivity.getDemoModeLocation().getPosition();
+                pos = MainActivity.getDemoModeLocation().getPosition();
                 if (pos == null)
                     return;
-            }else{
+            } else {
                 if (s.getSolutionStatus() == SolutionStatus.NONE) {
                     return;
                 }
@@ -438,17 +466,22 @@ public class MapFragment extends Fragment {
             if (mConsumer != null) {
                 if (notifyConsumer) {
                     mConsumer.onLocationChanged(mLastLocation, this);
-                }else {
+                } else {
                     // XXX
                     if (DBG) Log.v(TAG, "onLocationChanged() skipped while animating");
                 }
             }
+
+            if (DBG) Log.i(TAG, "setSolution out " + s.getSolutionStatus().toString());
+
         }
 
         public void setStatus(RtkControlResult status, boolean notifyConsumer) {
             setSolution(status.getSolution(), notifyConsumer);
         }
 
-    };
+    }
+
+    ;
 
 }

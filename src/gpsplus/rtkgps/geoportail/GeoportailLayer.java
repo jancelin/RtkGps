@@ -3,7 +3,7 @@ package gpsplus.rtkgps.geoportail;
 public enum GeoportailLayer {
     CADASTRALPARCELS(0,"CADASTRALPARCELS.PARCELS","image/png",".png",6,21),
     MAPS(1,"GEOGRAPHICALGRIDSYSTEMS.MAPS","image/jpeg",".png",3,18),
-    ORTHOIMAGE(2,"ORTHOIMAGERY.ORTHOPHOTOS","image/jpeg",".jpg",3,22);
+    ORTHOIMAGE(2,"ORTHOIMAGERY.ORTHOPHOTOS","image/jpeg",".jpg",3,26);
 
     private final int mId;
     private final String mLayer;

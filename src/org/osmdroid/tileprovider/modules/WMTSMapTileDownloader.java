@@ -74,7 +74,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
     // ===========================================================
     private static final boolean DBG = BuildConfig.DEBUG & true;
     static final String TAG = WMTSMapTileDownloader.class.getSimpleName();
-    private static int MAXIMUM_ZOOMLEVEL = 22;
+    private static int MAXIMUM_ZOOMLEVEL = 26;
     // ===========================================================
     // Fields
     // ===========================================================

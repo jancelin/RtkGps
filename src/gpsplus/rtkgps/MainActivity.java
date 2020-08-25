@@ -20,6 +20,8 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
@@ -60,10 +62,10 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
-public class MainActivity extends Activity implements OnSharedPreferenceChangeListener{
+public class MainActivity extends Activity implements OnSharedPreferenceChangeListener {
 
     private static final boolean DBG = BuildConfig.DEBUG & true;
-//    public static final int REQUEST_LINK_TO_DBX = 2654;
+    //    public static final int REQUEST_LINK_TO_DBX = 2654;
     static final String TAG = MainActivity.class.getSimpleName();
 
     /**
@@ -83,14 +85,20 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     String m_PointName = "POINT";
     boolean m_bRet_pointName = false;
 
-    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @BindView(R.id.navigation_drawer) View mNavDrawer;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.navigation_drawer)
+    View mNavDrawer;
 
-    @BindView(R.id.navdraw_server_switch) Switch mNavDrawerServerSwitch;
-    @BindView(R.id.navdraw_ntripcaster_switch) Switch mNavDrawerCasterSwitch;
+    @BindView(R.id.navdraw_server_switch)
+    Switch mNavDrawerServerSwitch;
+    @BindView(R.id.navdraw_ntripcaster_switch)
+    Switch mNavDrawerCasterSwitch;
 
-    @BindString(R.string.permissions_request_title) String permissionTitle;
-    @BindString(R.string.permissions_request_message) String permissionMessage;
+    @BindString(R.string.permissions_request_title)
+    String permissionTitle;
+    @BindString(R.string.permissions_request_message)
+    String permissionMessage;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -131,15 +139,27 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         } catch (NameNotFoundException e) {
             Log.w(TAG, "Error Package name not found ", e);
         }
+        // Check permission CG
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+                ||  (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED)){
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+
+        }
 
         // copy assets/data
         try {
+
+
             copyAssetsToApplicationDirectory();
             copyAssetsToWorkingDirectory();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -185,21 +205,19 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mDrawerLayout.closeDrawer(mNavDrawer);
                 if (isChecked) {
-                    if (mCaster == null)
-                    {
-                        mCaster = new NTRIPCaster(getFileStorageDirectory()+"/ntripcaster/conf");
+                    if (mCaster == null) {
+                        mCaster = new NTRIPCaster(getFileStorageDirectory() + "/ntripcaster/conf");
                     }
                     mCaster.start(2101, "none");
                     //TEST
-                }else {
-                    if (getCasterBrutalEnding())
-                    {
+                } else {
+                    if (getCasterBrutalEnding()) {
                         stopRtkService();
                         int ret = mCaster.stop(1);
                         android.os.Process.killProcess(android.os.Process.myPid()); //in case of not stopping
-                    }else{
+                    } else {
                         int ret = mCaster.stop(0);
-                        Log.v(TAG, "NTRIPCaster.stop(0)="+ret);
+                        Log.v(TAG, "NTRIPCaster.stop(0)=" + ret);
 
                     }
                 }
@@ -223,7 +241,7 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         return casterSolution.getBoolean(NTRIPCasterSettingsFragment.KEY_BRUTAL_ENDING_CASTER, true);
     }
 
-    public static DemoModeLocation getDemoModeLocation(){
+    public static DemoModeLocation getDemoModeLocation() {
         return mDemoModeLocation;
     }
 
@@ -312,48 +330,47 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         }
 
         switch (item.getItemId()) {
-        case R.id.menu_start_service:
-            startRtkService();
-            break;
-        case R.id.menu_stop_service:
-            stopRtkService();
-            break;
-        case R.id.menu_add_point:
-            askToAddPointToCrw();
-            break;
-        case R.id.menu_tools:
-            startActivity(new Intent(this, ToolsActivity.class));
-            break;
+            case R.id.menu_start_service:
+                startRtkService();
+                break;
+            case R.id.menu_stop_service:
+                stopRtkService();
+                break;
+            case R.id.menu_add_point:
+                askToAddPointToCrw();
+                break;
+            case R.id.menu_tools:
+                startActivity(new Intent(this, ToolsActivity.class));
+                break;
 //        case R.id.menu_dropbox:
 //            mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
 //            break;
-        case R.id.menu_settings:
-            mDrawerLayout.openDrawer(mNavDrawer);
-            break;
-        case R.id.menu_about:
-            startActivity(new Intent(this, AboutActivity.class));
-            break;
-        default:
-            return super.onOptionsItemSelected(item);
+            case R.id.menu_settings:
+                mDrawerLayout.openDrawer(mNavDrawer);
+                break;
+            case R.id.menu_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }
 
-    private boolean askForPointName()
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.PointNameAlertDialogStyle);
+    private boolean askForPointName() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.PointNameAlertDialogStyle);
         builder.setTitle(R.string.point_name_input_title);
 
 
         final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
         builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                 m_PointName = input.getText().toString();
-                 m_bRet_pointName = true;
+                m_PointName = input.getText().toString();
+                m_bRet_pointName = true;
             }
         });
         builder.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
@@ -367,8 +384,8 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         builder.show();
         return m_bRet_pointName;
     }
-    private void askToAddPointToCrw()
-    {
+
+    private void askToAddPointToCrw() {
         if (askForPointName()) {
             final Intent intent = new Intent(RtkNaviService.ACTION_STORE_POINT);
             intent.setClass(this, RtkNaviService.class);
@@ -377,29 +394,26 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         }
     }
 
-    private void copyAssetsDirToApplicationDirectory(String sourceDir, File destDir) throws FileNotFoundException, IOException
-    {
+    private void copyAssetsDirToApplicationDirectory(String sourceDir, File destDir) throws FileNotFoundException, IOException {
         //copy assets/data to appdir/data
         java.io.InputStream stream = null;
         java.io.OutputStream output = null;
 
-        for(String fileName : this.getAssets().list(sourceDir))
-        {
-            stream = this.getAssets().open(sourceDir+File.separator + fileName);
-            String dest = destDir+ File.separator + sourceDir + File.separator + fileName;
+        for (String fileName : this.getAssets().list(sourceDir)) {
+            stream = this.getAssets().open(sourceDir + File.separator + fileName);
+            String dest = destDir + File.separator + sourceDir + File.separator + fileName;
             File fdest = new File(dest);
             if (fdest.exists()) continue;
 
             File fpdestDir = new File(fdest.getParent());
-            if ( !fpdestDir.exists() ) fpdestDir.mkdirs();
+            if (!fpdestDir.exists()) fpdestDir.mkdirs();
 
             output = new BufferedOutputStream(new FileOutputStream(dest));
 
             byte data[] = new byte[1024];
             int count;
 
-            while((count = stream.read(data)) != -1)
-            {
+            while ((count = stream.read(data)) != -1) {
                 output.write(data, 0, count);
             }
 
@@ -412,15 +426,13 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         }
     }
 
-    private void copyAssetsToApplicationDirectory() throws FileNotFoundException, IOException
-    {
-       copyAssetsDirToApplicationDirectory("data",this.getFilesDir());
-       copyAssetsDirToApplicationDirectory("proj4",this.getFilesDir());
+    private void copyAssetsToApplicationDirectory() throws FileNotFoundException, IOException {
+        copyAssetsDirToApplicationDirectory("data", this.getFilesDir());
+        copyAssetsDirToApplicationDirectory("proj4", this.getFilesDir());
     }
 
-    private void copyAssetsToWorkingDirectory() throws FileNotFoundException, IOException
-    {
-        copyAssetsDirToApplicationDirectory("ntripcaster",getFileStorageDirectory());
+    private void copyAssetsToWorkingDirectory() throws FileNotFoundException, IOException {
+        copyAssetsDirToApplicationDirectory("ntripcaster", getFileStorageDirectory());
     }
 
     private void proxyIfUsbAttached(Intent intent) {
@@ -443,7 +455,7 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                 R.drawable.ic_drawer,
                 R.string.drawer_open,
                 R.string.drawer_close
-                ) {
+        ) {
             @Override
             public void onDrawerClosed(View view) {
                 //getActionBar().setTitle(mTitle);
@@ -459,26 +471,26 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 
     private void selectDrawerItem(int itemId) {
         switch (itemId) {
-        case R.id.navdraw_item_status:
-        case R.id.navdraw_item_map:
-            setNavDrawerItemFragment(itemId);
-            break;
-        case R.id.navdraw_item_input_streams:
-            showInputStreamSettings();
-            break;
-        case R.id.navdraw_item_output_streams:
-            showOutputStreamSettings();
-            break;
-        case R.id.navdraw_item_log_streams:
-            showLogStreamSettings();
-            break;
-        case R.id.navdraw_item_processing_options:
-        case R.id.navdraw_item_solution_options:
-        case R.id.navdraw_item_ntripcaster_options:
-            showSettings(itemId);
-            break;
-        default:
-            throw new IllegalStateException();
+            case R.id.navdraw_item_status:
+            case R.id.navdraw_item_map:
+                setNavDrawerItemFragment(itemId);
+                break;
+            case R.id.navdraw_item_input_streams:
+                showInputStreamSettings();
+                break;
+            case R.id.navdraw_item_output_streams:
+                showOutputStreamSettings();
+                break;
+            case R.id.navdraw_item_log_streams:
+                showLogStreamSettings();
+                break;
+            case R.id.navdraw_item_processing_options:
+            case R.id.navdraw_item_solution_options:
+            case R.id.navdraw_item_ntripcaster_options:
+                showSettings(itemId);
+                break;
+            default:
+                throw new IllegalStateException();
         }
     }
 
@@ -491,34 +503,34 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         }
 
         switch (itemId) {
-        case R.id.navdraw_item_status:
-            fragment = new StatusFragment();
-            break;
-        case R.id.navdraw_item_map:
-            fragment = new MapFragment();
-            break;
-        default:
-            throw new IllegalArgumentException();
+            case R.id.navdraw_item_status:
+                fragment = new StatusFragment();
+                break;
+            case R.id.navdraw_item_map:
+                fragment = new MapFragment();
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
 
         getFragmentManager()
-        .beginTransaction()
-        .replace(R.id.container, fragment)
-        .commit();
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
         setNavDrawerItemChecked(itemId);
     }
 
     private void setNavDrawerItemChecked(int itemId) {
-        final int[] items = new int[] {
-            R.id.navdraw_item_status,
-            R.id.navdraw_item_input_streams,
-            R.id.navdraw_item_output_streams,
-            R.id.navdraw_item_log_streams,
-            R.id.navdraw_item_solution_options,
-            R.id.navdraw_item_solution_options
+        final int[] items = new int[]{
+                R.id.navdraw_item_status,
+                R.id.navdraw_item_input_streams,
+                R.id.navdraw_item_output_streams,
+                R.id.navdraw_item_log_streams,
+                R.id.navdraw_item_solution_options,
+                R.id.navdraw_item_solution_options
         };
 
-        for (int i: items) {
+        for (int i : items) {
             mNavDrawer.findViewById(i).setActivated(itemId == i);
         }
         mNavDraverSelectedItem = itemId;
@@ -581,20 +593,20 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     private void showSettings(int itemId) {
         final Intent intent = new Intent(this, SettingsActivity.class);
         switch (itemId) {
-        case R.id.navdraw_item_processing_options:
-            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
-                    ProcessingOptions1Fragment.class.getName());
-            break;
-        case R.id.navdraw_item_solution_options:
-            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
-                    SolutionOutputSettingsFragment.class.getName());
-            break;
-        case R.id.navdraw_item_ntripcaster_options:
-            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
-                    NTRIPCasterSettingsFragment.class.getName());
-            break;
-        default:
-            throw new IllegalStateException();
+            case R.id.navdraw_item_processing_options:
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                        ProcessingOptions1Fragment.class.getName());
+                break;
+            case R.id.navdraw_item_solution_options:
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                        SolutionOutputSettingsFragment.class.getName());
+                break;
+            case R.id.navdraw_item_ntripcaster_options:
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                        NTRIPCasterSettingsFragment.class.getName());
+                break;
+            default:
+                throw new IllegalStateException();
         }
         startActivity(intent);
     }
@@ -650,53 +662,54 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     @Nonnull
     public static File getFileStorageDirectory() {
         File externalLocation = new File(Environment.getExternalStorageDirectory(), RTKGPS_CHILD_DIRECTORY);
-        if(!externalLocation.isDirectory()) {
-           if (externalLocation.mkdirs()) {
-               Log.v(TAG, "Local storage created on external card");
-           }else{
-               externalLocation = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),RTKGPS_CHILD_DIRECTORY);
-               if(!externalLocation.isDirectory()) {
-                   if (externalLocation.mkdirs()) {
-                       Log.v(TAG, "Local storage created on public storage");
-                   }else{
-                       externalLocation = new File(Environment.getDownloadCacheDirectory(), RTKGPS_CHILD_DIRECTORY);
-                       if (!externalLocation.isDirectory()){
-                           if (externalLocation.mkdirs()){
-                               Log.v(TAG, "Local storage created on cache directory");
-                           }else{
-                               externalLocation = new File(Environment.getDataDirectory(),RTKGPS_CHILD_DIRECTORY);
-                               if(!externalLocation.isDirectory()) {
-                                   if (externalLocation.mkdirs()) {
-                                       Log.v(TAG, "Local storage created on data storage");
-                                   }else{
-                                       Log.e(TAG,"NO WAY TO CREATE FILE SOTRAGE?????");
-                                   }
-                               }
-                           }
-                       }
-                   }
-               }
-           }
+        if (!externalLocation.isDirectory()) {
+            if (externalLocation.mkdirs()) {
+                Log.v(TAG, "Local storage created on external card");
+            } else {
+                externalLocation = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), RTKGPS_CHILD_DIRECTORY);
+                if (!externalLocation.isDirectory()) {
+                    if (externalLocation.mkdirs()) {
+                        Log.v(TAG, "Local storage created on public storage");
+                    } else {
+                        externalLocation = new File(Environment.getDownloadCacheDirectory(), RTKGPS_CHILD_DIRECTORY);
+                        if (!externalLocation.isDirectory()) {
+                            if (externalLocation.mkdirs()) {
+                                Log.v(TAG, "Local storage created on cache directory");
+                            } else {
+                                externalLocation = new File(Environment.getDataDirectory(), RTKGPS_CHILD_DIRECTORY);
+                                if (!externalLocation.isDirectory()) {
+                                    if (externalLocation.mkdirs()) {
+                                        Log.v(TAG, "Local storage created on data storage");
+                                    } else {
+                                        Log.e(TAG, "NO WAY TO CREATE FILE SOTRAGE?????");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         return externalLocation;
     }
 
     @Nonnull
     public static File getFileInStorageDirectory(String nameWithExtension) {
-        return new File(Environment.getExternalStorageDirectory(), RTKGPS_CHILD_DIRECTORY+nameWithExtension);
+        return new File(Environment.getExternalStorageDirectory(), RTKGPS_CHILD_DIRECTORY + nameWithExtension);
     }
-    public static String getAndCheckSessionDirectory(String code){
+
+    public static String getAndCheckSessionDirectory(String code) {
         String szSessionDirectory = MainActivity.getFileStorageDirectory() + File.separator + code;
         File fsessionDirectory = new File(szSessionDirectory);
-        if (!fsessionDirectory.exists()){
+        if (!fsessionDirectory.exists()) {
             fsessionDirectory.mkdirs();
         }
         return szSessionDirectory;
     }
 
-    public static File getFileInStorageSessionDirectory(String code, String nameWithExtension){
+    public static File getFileInStorageSessionDirectory(String code, String nameWithExtension) {
         String szSessionDirectory = MainActivity.getAndCheckSessionDirectory(code);
-        return new File (szSessionDirectory+File.separator+nameWithExtension);
+        return new File(szSessionDirectory + File.separator + nameWithExtension);
     }
 
 
@@ -704,26 +717,27 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     public static File getLocalSocketPath(Context ctx, String socketName) {
         return ctx.getFileStreamPath(socketName);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == REQUEST_LINK_TO_DBX) {
 //            if (resultCode == Activity.RESULT_OK) {
-                // ... Start using Dropbox files.
+        // ... Start using Dropbox files.
 //            } else {
-                // ... Link failed or was cancelled by the user.
- //           }
- //       } else {
-            super.onActivityResult(requestCode, resultCode, data);
- //       }
+        // ... Link failed or was cancelled by the user.
+        //           }
+        //       } else {
+        super.onActivityResult(requestCode, resultCode, data);
+        //       }
     }
+
     public static String getApplicationDirectory() {
         return MainActivity.mApplicationDirectory;
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equalsIgnoreCase(NTRIPCasterSettingsFragment.KEY_ENABLE_CASTER))
-        {
+        if (key.equalsIgnoreCase(NTRIPCasterSettingsFragment.KEY_ENABLE_CASTER)) {
             toggleCasterSwitch();
         }
 
