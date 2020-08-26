@@ -51,6 +51,13 @@
   <string name="navdraw_item_processing_options">Options de traitement</string>
   <string name="navdraw_item_solution_options">Options de solution</string>
   <string name="navdraw_item_ntripcaster_options">Options du caster</string>
+  <string name="navdraw_item_save_settings">Sauvegarder les paramètres</string>
+  <string name="navdraw_item_save_settings_finished">Les paramètres sont sauvegardés dans un .zip situé dans le dossier RtkGps+ (%s).</string>
+  <string name="navdraw_item_save_settings_failed">Problème! Les paramètres n'ont pas été saugegardés !!! (%s).</string>
+  <string name="navdraw_item_load_settings">Charger les paramètres</string>
+  <string name="navdraw_item_load_settings_finished">Les paramètres sont chargés à partir du .zip situé dans le dossier RtkGps+ (%s). Fermer et ré-ouvrir RtkGPS+ pour la MAJ des paramètres. </string>
+  <string name="navdraw_item_load_settings_failed">Le fichier de paramètres n'a pas été trouvé !!! (%s).</string>
+
   <string-array name="rtk_server_receiver">
     <item>Mobile</item>
     <item>Base</item>
