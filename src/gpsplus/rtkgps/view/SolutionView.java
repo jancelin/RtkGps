@@ -98,7 +98,7 @@ public class SolutionView extends TableLayout {
                 R.string.solution_view_format_proj4_lambertIIextended,
                 R.array.solution_view_coordinates_proj4_lambert93,
                 CRSRegistry.IGNF_LAMBE),
-       PROJ4_NAD83(13,
+        PROJ4_NAD83(13,
                 R.string.solution_view_format_proj4_nad83,
                 R.array.solution_view_coordinates_proj4_nad83,
                 CRSRegistry.EPSG_4269),
@@ -190,7 +190,7 @@ public class SolutionView extends TableLayout {
         try {
             final int formatVal = a.getInt(R.styleable.SolutionView_format,
                     DEFAULT_SOLUTION_FORMAT.mStyledAttributeValue
-                    );
+            );
             if (a.hasValue(R.styleable.SolutionView_textColor)) {
                 textColor = a.getColor(R.styleable.SolutionView_textColor,
                         0);
@@ -275,7 +275,6 @@ public class SolutionView extends TableLayout {
         mSolutionIndicatorView.setStatus(solStatus);
         updateCoordinates(status);
         updateAgeText(sol);
-        RtkNaviService.setNotificationSolutionStatusWithUpdate(solStatus);
     }
 
     public void setFormat(Format format) {
@@ -292,7 +291,7 @@ public class SolutionView extends TableLayout {
 
     private double getAltitudeCorrection(double lat, double lon)
     {
-     // Gets if solution height is geodetic or ellipsoidal
+        // Gets if solution height is geodetic or ellipsoidal
         double dGeoidHeight = 0.0;
         String mSzEllipsoidal = this.getContext().getResources().getStringArray(R.array.solopt_height_entries)[0];
         SharedPreferences prefs= this.getContext().getSharedPreferences(SolutionOutputSettingsFragment.SHARED_PREFS_NAME, 0);
@@ -397,30 +396,30 @@ public class SolutionView extends TableLayout {
                 }
                 mTextViewCovariance.setText(formatRMS(Qe));
                 break;
-        case UTM:
-            dGeoidHeight = getAltitudeCorrection(lat, lon);
-            UTM myUTM = new UTM(dlat,dlon);
-            if (proj4Converter == null)
-            {
-                proj4Converter = new Proj4Converter();
-            }
-            proj4Coordinate = proj4Converter.convert(myUTM.getCRSString(), dlat, dlon);
-            mTextViewCoord1Value.setText(String.format(Locale.US, "%.3f m", proj4Coordinate.x));
-            mTextViewCoord2Value.setText(String.format(Locale.US, "%.3f m", proj4Coordinate.y));
-            mTextViewCoord3Value.setText(String.format(Locale.US, "%.3f m el.", height-dGeoidHeight));
-            mTextViewCoord4Value.setText( myUTM.getUTMZone());
-            if (mBoolIsGeodetic)
-            {
-                mTextViewCoord3Name.setText(this.getContext().getResources().getStringArray(R.array.solution_view_coordinates_wgs84)[3]); //Altitude
-            }else{
-                mTextViewCoord3Name.setText(this.getContext().getResources().getStringArray(R.array.solution_view_coordinates_wgs84)[2]); //Height
-            }
-            mTextViewCoord4Name.setText(this.getContext().getResources().getStringArray(R.array.solution_view_coordinates_utm)[3]); //Zone:
-            mTextViewCovariance.setText(formatRMS(Qe));
-            break;
-        case WGS84:
-        case WGS84_FLOAT:
-            String strLat, strLon, strHeight,strAltitude="";
+            case UTM:
+                dGeoidHeight = getAltitudeCorrection(lat, lon);
+                UTM myUTM = new UTM(dlat,dlon);
+                if (proj4Converter == null)
+                {
+                    proj4Converter = new Proj4Converter();
+                }
+                proj4Coordinate = proj4Converter.convert(myUTM.getCRSString(), dlat, dlon);
+                mTextViewCoord1Value.setText(String.format(Locale.US, "%.3f m", proj4Coordinate.x));
+                mTextViewCoord2Value.setText(String.format(Locale.US, "%.3f m", proj4Coordinate.y));
+                mTextViewCoord3Value.setText(String.format(Locale.US, "%.3f m el.", height-dGeoidHeight));
+                mTextViewCoord4Value.setText( myUTM.getUTMZone());
+                if (mBoolIsGeodetic)
+                {
+                    mTextViewCoord3Name.setText(this.getContext().getResources().getStringArray(R.array.solution_view_coordinates_wgs84)[3]); //Altitude
+                }else{
+                    mTextViewCoord3Name.setText(this.getContext().getResources().getStringArray(R.array.solution_view_coordinates_wgs84)[2]); //Height
+                }
+                mTextViewCoord4Name.setText(this.getContext().getResources().getStringArray(R.array.solution_view_coordinates_utm)[3]); //Zone:
+                mTextViewCovariance.setText(formatRMS(Qe));
+                break;
+            case WGS84:
+            case WGS84_FLOAT:
+                String strLat, strLon, strHeight,strAltitude="";
 
                 if (mSolutionFormat == Format.WGS84) {
                     strLat = Deg2Dms.toString(Math.toDegrees(lat), true);
@@ -443,80 +442,80 @@ public class SolutionView extends TableLayout {
                 strAltitude = String.format(Locale.US, "%.3fm el.", height-dGeoidHeight);
                 strHeight = String.format(Locale.US, "%.3fm el.", height);
 
-            mTextViewCoord1Value.setText(strLat);
-            mTextViewCoord2Value.setText(strLon);
-            mTextViewCoord3Value.setText(strHeight);
-            if (mBoolIsGeodetic)
-            {
-                mTextViewCoord4Value.setText(strAltitude);
-            }else
-            {
-                mTextViewCoord4Value.setText("");
-            }
-            mTextViewCovariance.setText(formatRMS(Qe));
-            break;
-        case ECEF:
-            final float[] qr = sol.getPositionVariance();
-            mTextViewCoord1Value.setText(mCoordEcefFormatter.format(roverEcefPos.getX()));
-            mTextViewCoord2Value.setText(mCoordEcefFormatter.format(roverEcefPos.getY()));
-            mTextViewCoord3Value.setText(mCoordEcefFormatter.format(roverEcefPos.getZ()));
-            mTextViewCovariance.setText(String.format(
-                    Locale.US,
-                    "X:%6.3f\nY:%6.3f\nZ:%6.3f m",
-                    Math.sqrt(qr[0] < 0 ? 0 : qr[0]),
-                    Math.sqrt(qr[1] < 0 ? 0 : qr[1]),
-                    Math.sqrt(qr[2] < 0 ? 0 : qr[2])
-                    ));
-            break;
-        case ENU_BASELINE:
-        case PYL_BASELINE:
-            final Position3d baseEcefPos;
-            final Position3d baselineVector;
-            final Position3d enu;
-            final Position3d basePos;
-            double baselineLen;
-            String v1, v2, v3;
-
-            baseEcefPos = rtk.getBasePosition();
-
-            baselineVector = new Position3d(
-                    roverEcefPos.getX() - baseEcefPos.getX(),
-                    roverEcefPos.getY() - baseEcefPos.getY(),
-                    roverEcefPos.getZ() - baseEcefPos.getZ()
-                    );
-
-            baselineLen = baselineVector.getNorm();
-            if (baselineLen <= 0.0) {
+                mTextViewCoord1Value.setText(strLat);
+                mTextViewCoord2Value.setText(strLon);
+                mTextViewCoord3Value.setText(strHeight);
+                if (mBoolIsGeodetic)
+                {
+                    mTextViewCoord4Value.setText(strAltitude);
+                }else
+                {
+                    mTextViewCoord4Value.setText("");
+                }
+                mTextViewCovariance.setText(formatRMS(Qe));
                 break;
-            }
+            case ECEF:
+                final float[] qr = sol.getPositionVariance();
+                mTextViewCoord1Value.setText(mCoordEcefFormatter.format(roverEcefPos.getX()));
+                mTextViewCoord2Value.setText(mCoordEcefFormatter.format(roverEcefPos.getY()));
+                mTextViewCoord3Value.setText(mCoordEcefFormatter.format(roverEcefPos.getZ()));
+                mTextViewCovariance.setText(String.format(
+                        Locale.US,
+                        "X:%6.3f\nY:%6.3f\nZ:%6.3f m",
+                        Math.sqrt(qr[0] < 0 ? 0 : qr[0]),
+                        Math.sqrt(qr[1] < 0 ? 0 : qr[1]),
+                        Math.sqrt(qr[2] < 0 ? 0 : qr[2])
+                ));
+                break;
+            case ENU_BASELINE:
+            case PYL_BASELINE:
+                final Position3d baseEcefPos;
+                final Position3d baselineVector;
+                final Position3d enu;
+                final Position3d basePos;
+                double baselineLen;
+                String v1, v2, v3;
 
-            basePos = RtkCommon.ecef2pos(baseEcefPos);
-            enu = RtkCommon.ecef2enu(basePos.getLat(), basePos.getLon(), baselineVector);
-            cov = sol.getQrMatrix();
-            Qe = RtkCommon.covenu(basePos.getLat(), basePos.getLon(), cov).getValues();
+                baseEcefPos = rtk.getBasePosition();
 
-            if (mSolutionFormat == Format.ENU_BASELINE) {
-                v1 = String.format(Locale.US, "%.3f m", enu.getLat());
-                v2 = String.format(Locale.US, "%.3f m", enu.getLon());
-                v3 = String.format(Locale.US, "%.3f m", enu.getHeight());
-            }else {
-                double pitch, yaw;
-                pitch = Math.asin(enu.getHeight()/baselineLen);
-                yaw = Math.atan2(enu.getLat(), enu.getLon());
-                if (yaw < 0.0) yaw += 2.0 * Math.PI;
+                baselineVector = new Position3d(
+                        roverEcefPos.getX() - baseEcefPos.getX(),
+                        roverEcefPos.getY() - baseEcefPos.getY(),
+                        roverEcefPos.getZ() - baseEcefPos.getZ()
+                );
 
-                v1 = String.format(Locale.US, "%.3f °", Math.toDegrees(pitch));
-                v2 = String.format(Locale.US, "%.3f °", Math.toDegrees(yaw));
-                v3 = String.format(Locale.US, "%.3f m", baselineLen);
-            }
+                baselineLen = baselineVector.getNorm();
+                if (baselineLen <= 0.0) {
+                    break;
+                }
 
-            mTextViewCoord1Value.setText(v1);
-            mTextViewCoord2Value.setText(v2);
-            mTextViewCoord3Value.setText(v3);
-            mTextViewCovariance.setText(formatRMS(Qe));
-            break;
-        default:
-            throw new IllegalStateException();
+                basePos = RtkCommon.ecef2pos(baseEcefPos);
+                enu = RtkCommon.ecef2enu(basePos.getLat(), basePos.getLon(), baselineVector);
+                cov = sol.getQrMatrix();
+                Qe = RtkCommon.covenu(basePos.getLat(), basePos.getLon(), cov).getValues();
+
+                if (mSolutionFormat == Format.ENU_BASELINE) {
+                    v1 = String.format(Locale.US, "%.3f m", enu.getLat());
+                    v2 = String.format(Locale.US, "%.3f m", enu.getLon());
+                    v3 = String.format(Locale.US, "%.3f m", enu.getHeight());
+                }else {
+                    double pitch, yaw;
+                    pitch = Math.asin(enu.getHeight()/baselineLen);
+                    yaw = Math.atan2(enu.getLat(), enu.getLon());
+                    if (yaw < 0.0) yaw += 2.0 * Math.PI;
+
+                    v1 = String.format(Locale.US, "%.3f °", Math.toDegrees(pitch));
+                    v2 = String.format(Locale.US, "%.3f °", Math.toDegrees(yaw));
+                    v3 = String.format(Locale.US, "%.3f m", baselineLen);
+                }
+
+                mTextViewCoord1Value.setText(v1);
+                mTextViewCoord2Value.setText(v2);
+                mTextViewCoord3Value.setText(v3);
+                mTextViewCovariance.setText(formatRMS(Qe));
+                break;
+            default:
+                throw new IllegalStateException();
         }
     }
 
@@ -536,7 +535,7 @@ public class SolutionView extends TableLayout {
                     mDemoModeLocation.getAge(),
                     0.0,
                     mDemoModeLocation.getNbSat()
-                    ));
+            ));
 
         }else{
 
@@ -546,7 +545,7 @@ public class SolutionView extends TableLayout {
                     sol.getAge(),
                     sol.getRatio(),
                     sol.getNs()
-                    ));
+            ));
         }
 
     }
@@ -577,10 +576,10 @@ public class SolutionView extends TableLayout {
 
     private static String formatRMS(double[] Qe) {
         return String.format(
-            Locale.US,
-            "HRMS:%6.3f m\nVRMS:%6.3f m",
-            computeHRMS(Qe),
-            computeVRMS(Qe)
+                Locale.US,
+                "HRMS:%6.3f m\nVRMS:%6.3f m",
+                computeHRMS(Qe),
+                computeVRMS(Qe)
         );
     }
 
@@ -687,36 +686,36 @@ public class SolutionView extends TableLayout {
             int c;
 
             switch (status) {
-            case NONE:
-                c = DEFAULT_COLOR_STATE_CLOSE;
-                break;
-            case FIX:
-                c = Color.GREEN;
-                break;
-            case FLOAT:
-                c = Color.rgb(255, 127, 0);
-                break;
-            case SBAS:
-                c = Color.rgb(255, 0, 255);
-                break;
-            case DGPS:
-                c = Color.BLUE;
-                break;
-            case SINGLE:
-                c = Color.RED;
-                break;
-            case PPP:
-                c = Color.rgb(0, 128, 128);
-                break;
-            case DR:
-                c = Color.YELLOW;
-                break;
-            case INTERNAL:
-                c= Color.MAGENTA;
-                break;
-            default:
-                c = Color.WHITE;
-                break;
+                case NONE:
+                    c = DEFAULT_COLOR_STATE_CLOSE;
+                    break;
+                case FIX:
+                    c = Color.GREEN;
+                    break;
+                case FLOAT:
+                    c = Color.rgb(255, 127, 0);
+                    break;
+                case SBAS:
+                    c = Color.rgb(255, 0, 255);
+                    break;
+                case DGPS:
+                    c = Color.BLUE;
+                    break;
+                case SINGLE:
+                    c = Color.RED;
+                    break;
+                case PPP:
+                    c = Color.rgb(0, 128, 128);
+                    break;
+                case DR:
+                    c = Color.YELLOW;
+                    break;
+                case INTERNAL:
+                    c= Color.MAGENTA;
+                    break;
+                default:
+                    c = Color.WHITE;
+                    break;
             }
             return c;
         }
