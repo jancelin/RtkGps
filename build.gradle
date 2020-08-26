@@ -85,7 +85,6 @@ android {
             debuggable true
             jniDebuggable false
             renderscriptDebuggable false
-
         }
 
     }

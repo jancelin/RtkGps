@@ -79,10 +79,11 @@
             android:theme="@android:style/Theme.Holo.Dialog"
             />
         		
-		<activity android:name="gpsplus.rtkgps.AboutActivity"
+		<activity
+			android:name="gpsplus.rtkgps.AboutActivity"
 		    android:label="@string/about_activity_label"
 		     />
-        
+
 		<service 
             android:name=".RtkNaviService"
             android:exported="false" >
